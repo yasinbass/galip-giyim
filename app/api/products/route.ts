@@ -1,7 +1,7 @@
 import { prisma } from '@/app/lib/prisma'
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/app/api/auth/auth.config'
 import { Prisma } from '@prisma/client'
 import { writeFile } from 'fs/promises'
 import { join } from 'path'
@@ -168,7 +168,7 @@ export async function POST(request: Request) {
       }
 
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExtension}`
-      const filePath = join(uploadDir, fileName)
+      let filePath = join(uploadDir, fileName)
       
       console.log('Dosya kaydediliyor:', filePath)
       await writeFile(filePath, buffer)
@@ -184,8 +184,9 @@ export async function POST(request: Request) {
         categoryId: numericCategoryId
       })
 
+      let product;
       try {
-        const product = await prisma.product.create({
+        product = await prisma.product.create({
           data: {
             name,
             description,
@@ -233,7 +234,7 @@ export async function POST(request: Request) {
       console.error('Dosya işleme veya veritabanı hatası:', error)
       
       // Dosya yüklendiyse ve veritabanı hatası olduysa dosyayı sil
-      if (typeof filePath !== 'undefined') {
+      if (filePath) {
         try {
           const fs = require('fs')
           if (fs.existsSync(filePath)) {
@@ -248,7 +249,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { 
           error: 'Ürün eklenirken bir hata oluştu',
-          details: error instanceof Error ? error.message : 'Bilinmeyen hata'
+          details: error instanceof Error ? error.message : 'Unknown error'
         },
         { status: 500 }
       )
@@ -257,8 +258,8 @@ export async function POST(request: Request) {
     console.error('Genel hata:', error)
     return NextResponse.json(
       { 
-        error: 'Ürün eklenemedi',
-        details: error instanceof Error ? error.message : 'Bilinmeyen hata'
+        error: 'Bir hata oluştu',
+        details: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
     )

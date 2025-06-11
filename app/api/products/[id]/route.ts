@@ -1,7 +1,7 @@
 import { prisma } from '@/app/lib/prisma'
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/app/api/auth/auth.config'
 import { uploadImage } from '@/app/lib/uploadImage'
 
 // Tekil ürün getir
@@ -49,7 +49,7 @@ export async function PUT(
     const description = formData.get('description') as string
     const price = parseFloat(formData.get('price') as string)
     const stock = parseInt(formData.get('stock') as string)
-    const categoryId = formData.get('categoryId') as string
+    const categoryId = parseInt(formData.get('categoryId') as string)
     const image = formData.get('image') as File | null
 
     let imageUrl: string | undefined

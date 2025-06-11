@@ -1,4 +1,4 @@
-'use client';
+npm 'use client';
 
 import { useState } from 'react';
 import {
@@ -16,8 +16,8 @@ import {
 import {
   CurrencyDollarIcon,
   ChartBarIcon,
-  TrendingUpIcon,
-  ScaleIcon
+  ScaleIcon,
+  ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
 
 // Örnek veriler
@@ -57,7 +57,7 @@ const stats = [
     name: 'Aylık Satış',
     value: '₺67,000',
     change: '+12.8%',
-    icon: TrendingUpIcon
+    icon: ArrowTrendingUpIcon
   },
   {
     name: 'Kar Marjı',

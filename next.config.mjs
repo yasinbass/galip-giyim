@@ -12,9 +12,6 @@ const nextConfig = {
         hostname: 'localhost',
       }
     ]
-  },
-  experimental: {
-    appDir: true
   }
 }
 
