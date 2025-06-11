@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply bg-white text-neutral-800;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 text-white px-6 py-2 rounded-lg 
+    font-medium transition-all duration-200 hover:bg-primary-700 
+    focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-neutral-100 text-neutral-700 px-6 py-2 rounded-lg 
+    font-medium transition-all duration-200 hover:bg-neutral-200 
+    focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
+  }
+
+  .nav-link {
+    @apply text-neutral-600 hover:text-primary-600 transition-colors duration-200;
+  }
+
+  .product-card {
+    @apply bg-white border border-neutral-200 rounded-xl p-4 
+    transition-all duration-200 hover:shadow-lg hover:border-primary-200;
+  }
+
+  .heading-1 {
+    @apply text-3xl font-bold text-neutral-900;
+  }
+
+  .heading-2 {
+    @apply text-2xl font-semibold text-neutral-800;
+  }
+
+  .text-body {
+    @apply text-neutral-700;
+  }
+
+  .text-muted {
+    @apply text-neutral-500 text-sm;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 border border-neutral-300 rounded-lg 
+    focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+    placeholder:text-neutral-400;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+} 
