@@ -59,7 +59,7 @@ export default function AuthModal({ isOpen, setIsOpen }: { isOpen: boolean; setI
         }
       }
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'Bir hata oluştu');
     } finally {
       setLoading(false);
     }

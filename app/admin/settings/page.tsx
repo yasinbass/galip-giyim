@@ -9,13 +9,18 @@ export default function Settings() {
     contactEmail: 'info@galipgiyim.com',
     phoneNumber: '+90 555 123 4567',
     address: 'İstanbul, Türkiye',
+    aboutContent: '',
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     try {
-      // Burada API çağrısı yapılabilir
+      await fetch('/api/settings/about', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ aboutContent: settings.aboutContent }),
+      })
       toast.success('Ayarlar başarıyla güncellendi')
     } catch (error) {
       toast.error('Ayarlar güncellenirken bir hata oluştu')
@@ -87,6 +92,21 @@ export default function Settings() {
                 value={settings.address}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="aboutContent" className="block text-sm font-medium text-gray-700">
+                Hakkımızda Sayfası İçeriği
+              </label>
+              <textarea
+                id="aboutContent"
+                name="aboutContent"
+                value={settings.aboutContent}
+                onChange={e => setSettings(prev => ({ ...prev, aboutContent: e.target.value }))}
+                rows={6}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Hakkımızda sayfası için içerik girin..."
               />
             </div>
 

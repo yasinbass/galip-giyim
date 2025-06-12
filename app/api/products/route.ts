@@ -140,6 +140,7 @@ export async function POST(request: Request) {
       )
     }
 
+    let filePath: string | undefined;
     // Görsel işleme
     try {
       console.log('Görsel işleniyor...')
@@ -168,7 +169,7 @@ export async function POST(request: Request) {
       }
 
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExtension}`
-      let filePath = join(uploadDir, fileName)
+      filePath = join(uploadDir, fileName)
       
       console.log('Dosya kaydediliyor:', filePath)
       await writeFile(filePath, buffer)

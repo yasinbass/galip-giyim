@@ -2,12 +2,22 @@
 
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AuthModal from './AuthModal'
 
 export default function Header() {
   const { data: session, status } = useSession()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [showAboutDropdown, setShowAboutDropdown] = useState(false)
+  const [aboutContent, setAboutContent] = useState('')
+
+  useEffect(() => {
+    if (showAboutDropdown && !aboutContent) {
+      fetch('/api/settings/about')
+        .then(res => res.json())
+        .then(data => setAboutContent(data.aboutContent || ''));
+    }
+  }, [showAboutDropdown, aboutContent]);
 
   return (
     <header className="bg-white shadow-md">
@@ -31,7 +41,7 @@ export default function Header() {
               <div className="w-20 h-10"></div>
             ) : session?.user ? (
               <div className="flex items-center space-x-4">
-                {session.user.role === 'ADMIN' && (
+                {session.user?.role === 'ADMIN' && (
                   <Link
                     href="/admin"
                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 bg-primary-50 hover:bg-primary-100"
@@ -47,12 +57,32 @@ export default function Header() {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={() => setIsAuthModalOpen(true)}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
-              >
-                Giriş Yap
-              </button>
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
+                >
+                  Giriş Yap
+                </button>
+                {/* Hakkımızda Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => setShowAboutDropdown((prev) => !prev)}
+                    className="ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50"
+                  >
+                    Hakkımızda
+                  </button>
+                  {showAboutDropdown && (
+                    <div className="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4 text-left animate-fadeIn">
+                      {/* About content will be dynamically loaded here */}
+                      <div className="text-gray-900 font-semibold mb-2">Galip Giyim Hakkında</div>
+                      <div className="text-gray-600 text-sm whitespace-pre-line">
+                        {aboutContent || 'Yükleniyor...'}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         </div>

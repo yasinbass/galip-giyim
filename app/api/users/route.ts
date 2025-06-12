@@ -17,6 +17,7 @@ export async function POST(request: Request) {
       data: {
         email: body.email,
         name: body.name,
+        password: body.password,
       },
     })
     return NextResponse.json(user)

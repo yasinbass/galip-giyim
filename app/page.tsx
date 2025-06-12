@@ -17,6 +17,7 @@ interface Product {
   stock: number
   imageUrl: string
   categoryId: number
+  slug: string
 }
 
 export default function Home() {
