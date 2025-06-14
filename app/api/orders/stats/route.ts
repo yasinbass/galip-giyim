@@ -43,7 +43,7 @@ export async function GET() {
     });
 
     const monthlyRevenue = monthlyOrders.reduce(
-      (sum, order) => sum + order.totalAmount,
+      (sum, order) => sum + Number(order.totalAmount),
       0
     );
 
